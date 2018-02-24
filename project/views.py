@@ -30,7 +30,7 @@ def logout():
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    
     if request.method == 'POST':
         if request.form['username']!= app.config['USERNAME'] or request.form['password']!= app.config['PASSWORD']:
             error = 'Invalid Credential. Please try again'
@@ -39,3 +39,4 @@ def login():
             session['logged_in'] = True
             flash('Welcome')
             return redirect(url_for('tasks'))
+    return render_template('login.html')
