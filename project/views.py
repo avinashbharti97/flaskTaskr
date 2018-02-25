@@ -1,17 +1,21 @@
-import sqlite3
 from functools import wraps
 
 from flask import Flask, flash, redirect, render_template, request, session, url_for,g
 from forms import AddTaskForm
 
+from flask_sqlalchemy import SQLAlchemy
+
+
 
 #config
 app = Flask(__name__)
 app.config.from_object('_config')
+db = SQLAlchemy(app)
+
+from models import Task
 
 #functions
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE_PATH'])
+
 
 def login_required(test):
     @wraps(test)
@@ -26,7 +30,7 @@ def login_required(test):
 #route handlers
 @app.route('/logout/')
 def logout():
-    session.pop('logged_in', none)
+    session.pop('logged_in', None)
     flash('Goodbye!')
     return redirect(url_for('login'))
 
